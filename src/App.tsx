@@ -1,21 +1,17 @@
-import { lazy } from "react";
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-const ViewLogin = lazy(() => import("./Login"));
-const ViewHome = lazy(() => import("./Home"));
+import { HashRouter, Route, Routes } from "react-router-dom";
+import Login from "./Login";
+import Home from "./Home";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
-          <Route path="/gestao-hospitalar" element={<ViewHome />}></Route>
-          <Route
-            path="/gestao-hospitalar/Login"
-            element={<ViewLogin />}
-          ></Route>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }
