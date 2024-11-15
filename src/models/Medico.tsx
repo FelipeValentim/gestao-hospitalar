@@ -15,16 +15,17 @@ export class Medico {
 
   atenderConsulta(consulta: Consulta): void {
     // Lógica para atendimento da consulta
-    console.log(`Consulta atendida pelo médico: ${this.crm}`);
+    console.log(`${consulta.id}`);
   }
 
   verificarDisponibilidade(medico: Medico, data: Date): boolean {
     // Lógica para verificar a disponibilidade do médico
+    console.log(`${medico.crm}, ${data}`);
     return true; // Suponha que está disponível para simplificação
   }
 
   criarConta(usuario: Usuario, medico: Medico): void {
     // Lógica para criar conta do médico
-    console.log(`Conta criada para o médico ${usuario.nome}`);
+    console.log(`Conta criada para o médico ${usuario.nome}, ${medico.crm}`);
   }
 }

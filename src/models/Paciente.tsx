@@ -21,6 +21,8 @@ export class Paciente {
 
   criarConta(usuario: Usuario, paciente: Paciente): void {
     // Lógica para criar uma conta de paciente
-    console.log(`Conta criada para o paciente ${usuario.nome}`);
+    console.log(
+      `Conta criada para o paciente ${usuario.nome}, ${paciente.endereco}`
+    );
   }
 }

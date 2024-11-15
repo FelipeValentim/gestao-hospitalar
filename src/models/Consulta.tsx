@@ -31,7 +31,7 @@ export class Consulta {
   ): void {
     // Lógica para marcar uma consulta
     console.log(
-      `Consulta marcada para o paciente ${paciente.telefone} com o médico ${medico.crm}`
+      `Consulta marcada para o paciente ${paciente.telefone} com o médico ${medico.crm}, ${data}, ${observacoes}`
     );
   }
 
