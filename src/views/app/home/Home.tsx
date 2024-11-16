@@ -8,6 +8,13 @@ const Home = () => {
   const [medicos, setMedicos] = useState<Array<Medico>>([]);
   const [medico, setMedico] = useState<Medico | null>(null);
   const [horarios, setHorarios] = useState<Array<Horario>>([]);
+  const [dataSelecionada, setDataSelecionada] = useState<string>("");
+  const [horarioSelecionado, setHorarioSelecionado] = useState<Horario | null>(
+    null
+  );
+  const [consulta, setConsulta] = useState({});
+
+  const agendar = async () => {};
 
   const getMedicos = async () => {
     const data = await db.medicos.orderBy("especialidade").toArray();
@@ -15,13 +22,25 @@ const Home = () => {
   };
 
   const getHorarios = async () => {
-    if (medico) {
+    if (consulta.medico && consulta.data) {
       const data = await db.horarios
         .where("medicoId")
-        .equals(medico.id)
+        .equals(consulta.medico.id)
         .toArray();
+
       setHorarios(data);
+      setConsulta({ ...consulta, horario: null });
     }
+  };
+
+  const getMaxDate = () => {
+    const hoje = new Date();
+    hoje.setMonth(hoje.getMonth() + 1); // Adiciona 1 mês à data atual
+    return hoje.toISOString().split("T")[0]; // Retorna a data no formato yyyy-mm-dd
+  };
+
+  const handleDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConsulta({ ...consulta, data: e.target.value });
   };
 
   useEffect(() => {
@@ -30,7 +49,7 @@ const Home = () => {
 
   useEffect(() => {
     getHorarios();
-  }, [medico]);
+  }, [consulta.medico, consulta.data]);
 
   return (
     <div className="container">
@@ -40,7 +59,7 @@ const Home = () => {
           <div
             key={medico.id}
             className="medico-card"
-            onClick={() => setMedico(medico)}
+            onClick={() => setConsulta({ medico })}
           >
             <p>
               <strong>{medico.nome}</strong>
@@ -50,24 +69,44 @@ const Home = () => {
         ))}
       </div>
 
-      {medico && <div>{medico.nome}</div>}
-
-      {medico && (
+      {consulta.medico && (
         <div className="horarios">
           <h2>Horários Disponíveis</h2>
+
+          {/* Seletor de data */}
+          <div className="date-picker">
+            <label htmlFor="data">Escolha o Dia:</label>
+            <input
+              type="date"
+              id="data"
+              name="data"
+              value={consulta.data}
+              onChange={handleDataChange}
+              min={new Date().toISOString().split("T")[0]} // Impede a seleção de datas passadas
+              max={getMaxDate()}
+            />
+          </div>
+
+          {/* Exibição dos horários filtrados */}
           {horarios.length > 0 ? (
             horarios.map((horario) => (
-              <div key={horario.id} className="horario-card">
+              <div
+                key={horario.id}
+                onClick={() => setConsulta({ ...consulta, horario })}
+                className="horario-card"
+              >
                 {horario.horario}
               </div>
             ))
           ) : (
             <p className="no-horarios">
-              Selecione um médico para ver os horários.
+              Selecione um médico e um dia para ver os horários.
             </p>
           )}
         </div>
       )}
+
+      {consulta.horario && <button onClick={agendar}>Agendar</button>}
     </div>
   );
 };
