@@ -1,0 +1,78 @@
+/* Estilo principal do container */
+.login-container {
+  width: 360px;
+  margin: 100px auto;
+  padding: 30px;
+  text-align: center;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #007bff, #4a90e2);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Título da tela de login */
+.login-container h2 {
+  margin-bottom: 20px;
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Estilo do formulário */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+/* Estilo dos campos de entrada */
+.login-form input {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  color: #333;
+  background-color: #f0f4f8;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.login-form input:focus {
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.8);
+}
+
+/* Estilo do botão */
+.login-form button {
+  padding: 12px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #0056b3;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-form button:hover {
+  background-color: #003d80;
+  transform: scale(1.02);
+}
+
+.login-form button:active {
+  transform: scale(0.98);
+}
+
+/* Link para esquecimento de senha (opcional) */
+.login-form a {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #f0f4f8;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-form a:hover {
+  color: #d0e4ff;
+}
