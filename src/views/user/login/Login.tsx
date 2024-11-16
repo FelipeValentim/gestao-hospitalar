@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./Login.css"; // Importação do arquivo CSS
 import InputMask from "react-input-mask";
-import { db } from "./database/dbContext";
-import { generateToken } from "./services/jwtService";
-import { setToken } from "./helpers/storage";
 import { useDispatch } from "react-redux";
-import { setUser } from "./redux/user";
+import { generateToken } from "../../../services/jwtService";
+import { setToken } from "../../../helpers/storage";
+import { setUser } from "../../../redux/user";
+import { db } from "../../../database/dbContext";
 
 const Login = () => {
   const [cpf, setCpf] = useState<string>("");

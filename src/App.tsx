@@ -1,12 +1,13 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
-import Login from "./Login";
-import Home from "./Home";
 import { getToken } from "./helpers/storage";
 import { useDispatch } from "react-redux";
 import { decodeToken } from "./services/jwtService";
 import { setUser } from "./redux/user";
 import { useEffect, useState } from "react";
 import { ProtectedRoute, UnprotectedRoute } from "./helpers/auth";
+import Index from "./views/app";
+import Login from "./views/user/login/Login";
+import Home from "./views/app/home/Home";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ function App() {
       setLoading(false);
     };
     getUser();
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return <div className="loading"></div>;
@@ -39,10 +40,12 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                <Home />
+                <Index />
               </ProtectedRoute>
             }
-          ></Route>
+          >
+            <Route path="" element={<Home />} />
+          </Route>
           <Route
             path="/login"
             element={
