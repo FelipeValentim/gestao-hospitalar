@@ -1,16 +1,24 @@
 import { Usuario } from "./Usuario";
 import { Consulta } from "./Consulta";
 
-export class Medico {
-  id!: number;
+export class Medico extends Usuario {
   especialidade: string;
   crm: string;
-  usuarioId: number;
 
-  constructor(especialidade: string, crm: string, usuarioId: number) {
+  constructor(
+    cpf: string,
+    nome: string,
+    email: string,
+    senha: string,
+    especialidade: string,
+    crm: string
+  ) {
+    // Chama o construtor da classe Usuario com os parâmetros necessários
+    super(cpf, nome, email, senha);
+
+    // Inicializa as propriedades específicas de Medico
     this.especialidade = especialidade;
     this.crm = crm;
-    this.usuarioId = usuarioId;
   }
 
   atenderConsulta(consulta: Consulta): void {

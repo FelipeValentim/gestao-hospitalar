@@ -1,5 +1,4 @@
 import { JWTPayload, SignJWT, jwtVerify } from "jose";
-import { Usuario } from "../models/Usuario";
 import { ResponseMessage } from "../utils/ResponseMessage";
 
 const SECRET_KEY = new TextEncoder().encode(
@@ -9,8 +8,8 @@ const SECRET_KEY = new TextEncoder().encode(
 export interface CustomJwtPayload extends JWTPayload {
   id: number;
 }
-export const generateToken = async (usuario: Usuario): Promise<string> => {
-  const jwt = await new SignJWT({ id: usuario.id }) // Dados que você quer incluir no payload
+export const generateToken = async (id: number): Promise<string> => {
+  const jwt = await new SignJWT({ id: id }) // Dados que você quer incluir no payload
     .setProtectedHeader({ alg: "HS256" }) // Define o algoritmo
     .setIssuedAt() // Define a hora de emissão
     .setExpirationTime("2h") // Tempo de expiração (ex.: 2 horas)

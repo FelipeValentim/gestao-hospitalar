@@ -1,22 +1,23 @@
 import { Usuario } from "./Usuario";
 
-export class Paciente {
-  id!: number;
+export class Paciente extends Usuario {
   telefone: string;
   endereco: string;
   dataNascimento: Date;
-  usuarioId: number;
 
   constructor(
+    cpf: string,
+    nome: string,
+    email: string,
+    senha: string,
     telefone: string,
     endereco: string,
-    dataNascimento: Date,
-    usuarioId: number
+    dataNascimento: Date
   ) {
+    super(cpf, nome, email, senha);
     this.telefone = telefone;
     this.endereco = endereco;
     this.dataNascimento = dataNascimento;
-    this.usuarioId = usuarioId;
   }
 
   criarConta(usuario: Usuario, paciente: Paciente): void {

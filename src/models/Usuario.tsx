@@ -4,20 +4,12 @@ export class Usuario {
   nome: string;
   email: string;
   senha: string;
-  tipo: string;
 
-  constructor(
-    cpf: string,
-    nome: string,
-    email: string,
-    senha: string,
-    tipo: string
-  ) {
+  constructor(cpf: string, nome: string, email: string, senha: string) {
     this.cpf = cpf;
     this.nome = nome;
     this.email = email;
     this.senha = senha;
-    this.tipo = tipo;
   }
 
   login(usuario: Usuario): boolean {

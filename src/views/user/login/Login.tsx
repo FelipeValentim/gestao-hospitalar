@@ -13,20 +13,16 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log(cpf);
-
     e.preventDefault();
     if (cpf && password) {
-      const user = await db.usuarios
-        .where("cpf")
-        .equals(cpf)
-        .and((x) => x.senha == password)
+      const paciente = await db.pacientes
+        .filter((x) => x.cpf == cpf && x.senha == password)
         .first();
 
-      if (user) {
-        const token = await generateToken(user);
+      if (paciente) {
+        const token = await generateToken(paciente.id);
         setToken(token);
-        dispatch(setUser(user.id));
+        dispatch(setUser(paciente.id));
       } else {
         console.log("Usuário ou senha incorreto");
       }
