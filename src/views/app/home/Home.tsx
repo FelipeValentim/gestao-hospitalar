@@ -3,18 +3,46 @@ import { Medico } from "../../../models/Medico";
 import { db } from "../../../database/dbContext";
 import { Horario } from "../../../models/Horario";
 import "./Home.css"; // Certifique-se de importar o arquivo CSS
+import { Consulta } from "../../../models/Consulta";
+import { useSelector } from "react-redux";
+import RootState from "../../../interfaces/RootState";
+
+// Definir a interface Consulta
+interface ConsultaState {
+  medicoId: number | null;
+  data: string | null;
+  horarioId: number | null;
+}
 
 const Home = () => {
   const [medicos, setMedicos] = useState<Array<Medico>>([]);
-  const [medico, setMedico] = useState<Medico | null>(null);
   const [horarios, setHorarios] = useState<Array<Horario>>([]);
-  const [dataSelecionada, setDataSelecionada] = useState<string>("");
-  const [horarioSelecionado, setHorarioSelecionado] = useState<Horario | null>(
-    null
-  );
-  const [consulta, setConsulta] = useState({});
+  const [consulta, setConsulta] = useState<ConsultaState>({
+    medicoId: null,
+    data: null,
+    horarioId: null,
+  });
+  const [consultas, setConsultas] = useState<Array<Consulta>>([]);
+  const user = useSelector((state: RootState) => state.user);
 
-  const agendar = async () => {};
+  const agendar = async () => {
+    if (consulta.data && consulta.horarioId && consulta.medicoId && user) {
+      console.log(consulta, user);
+      const consultaEntry = new Consulta(
+        consulta.data,
+        "Agendada",
+        user,
+        consulta.medicoId,
+        consulta.horarioId
+      );
+      await db.consultas.add(consultaEntry);
+      setConsulta({
+        medicoId: null,
+        data: null,
+        horarioId: null,
+      });
+    }
+  };
 
   const getMedicos = async () => {
     const data = await db.medicos.orderBy("especialidade").toArray();
@@ -22,14 +50,25 @@ const Home = () => {
   };
 
   const getHorarios = async () => {
-    if (consulta.medico && consulta.data) {
+    if (consulta.medicoId && consulta.data) {
       const data = await db.horarios
         .where("medicoId")
-        .equals(consulta.medico.id)
+        .equals(consulta.medicoId)
         .toArray();
 
-      setHorarios(data);
-      setConsulta({ ...consulta, horario: null });
+      const consultas = await db.consultas
+        .filter(
+          (x) =>
+            data.some((h) => h.id == x.horarioId) && x.data == consulta.data
+        )
+        .toArray();
+
+      const horariosDisponiveis = data.filter(
+        (h) => !consultas.some((x) => x.horarioId === h.id)
+      );
+
+      setHorarios(horariosDisponiveis);
+      setConsulta({ ...consulta, horarioId: null }); // Limpa o horário ao mudar a data
     }
   };
 
@@ -48,18 +87,47 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    const getConsultas = async () => {
+      const data = await Promise.all(
+        (
+          await db.consultas.toArray()
+        ).map(async (consulta) => {
+          const horario = await db.horarios.get(consulta.horarioId);
+          const medico = await db.medicos.get(consulta.medicoId);
+          return { ...consulta, horario, medico };
+        })
+      );
+
+      setConsultas(data as Consulta[]);
+    };
+    getConsultas();
+  }, [consulta]);
+
+  useEffect(() => {
     getHorarios();
-  }, [consulta.medico, consulta.data]);
+  }, [consulta.medicoId, consulta.data]);
 
   return (
     <div className="container">
+      <h2>Consultas</h2>
+      {consultas.map((consulta) => (
+        <div key={consulta.id}>
+          <p>
+            <strong>
+              {consulta.medico?.nome} {consulta.data}
+              {consulta.horario?.horario}
+            </strong>
+          </p>
+        </div>
+      ))}
+
       <h2>Médicos Disponíveis</h2>
       <div className="medico-list">
         {medicos.map((medico) => (
           <div
             key={medico.id}
             className="medico-card"
-            onClick={() => setConsulta({ medico })}
+            onClick={() => setConsulta({ ...consulta, medicoId: medico.id })}
           >
             <p>
               <strong>{medico.nome}</strong>
@@ -69,7 +137,7 @@ const Home = () => {
         ))}
       </div>
 
-      {consulta.medico && (
+      {consulta.medicoId && (
         <div className="horarios">
           <h2>Horários Disponíveis</h2>
 
@@ -80,7 +148,7 @@ const Home = () => {
               type="date"
               id="data"
               name="data"
-              value={consulta.data}
+              value={consulta.data || ""}
               onChange={handleDataChange}
               min={new Date().toISOString().split("T")[0]} // Impede a seleção de datas passadas
               max={getMaxDate()}
@@ -92,7 +160,9 @@ const Home = () => {
             horarios.map((horario) => (
               <div
                 key={horario.id}
-                onClick={() => setConsulta({ ...consulta, horario })}
+                onClick={() =>
+                  setConsulta({ ...consulta, horarioId: horario.id })
+                }
                 className="horario-card"
               >
                 {horario.horario}
@@ -106,7 +176,7 @@ const Home = () => {
         </div>
       )}
 
-      {consulta.horario && <button onClick={agendar}>Agendar</button>}
+      {consulta.horarioId && <button onClick={agendar}>Agendar</button>}
     </div>
   );
 };

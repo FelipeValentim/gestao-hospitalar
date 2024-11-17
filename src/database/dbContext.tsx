@@ -1,5 +1,4 @@
 import Dexie from "dexie";
-import { Usuario } from "../models/Usuario";
 import { Paciente } from "../models/Paciente";
 import { Medico } from "../models/Medico";
 import { Consulta } from "../models/Consulta";
