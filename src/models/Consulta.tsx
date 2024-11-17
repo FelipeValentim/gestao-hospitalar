@@ -7,7 +7,6 @@ export class Consulta {
   data: string;
   status: "Agendada" | "Realizada" | "Cancelada";
   pacienteId: number;
-  medicoId: number;
   medico?: Medico;
   horarioId: number;
   horario?: Horario;
@@ -17,14 +16,12 @@ export class Consulta {
     data: string,
     status: "Agendada" | "Realizada" | "Cancelada",
     pacienteId: number,
-    medicoId: number,
     horarioId: number,
     observacoes?: string
   ) {
     this.data = data;
     this.status = status;
     this.pacienteId = pacienteId;
-    this.medicoId = medicoId;
     this.horarioId = horarioId;
     this.observacoes = observacoes;
   }

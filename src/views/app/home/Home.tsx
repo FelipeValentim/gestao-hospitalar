@@ -32,7 +32,6 @@ const Home = () => {
         consulta.data,
         "Agendada",
         user,
-        consulta.medicoId,
         consulta.horarioId
       );
       await db.consultas.add(consultaEntry);
@@ -41,6 +40,7 @@ const Home = () => {
         data: null,
         horarioId: null,
       });
+      setHorarios([]);
     }
   };
 
@@ -93,7 +93,10 @@ const Home = () => {
           await db.consultas.toArray()
         ).map(async (consulta) => {
           const horario = await db.horarios.get(consulta.horarioId);
-          const medico = await db.medicos.get(consulta.medicoId);
+          let medico;
+          if (horario) {
+            medico = await db.medicos.get(horario.medicoId);
+          }
           return { ...consulta, horario, medico };
         })
       );
@@ -114,7 +117,7 @@ const Home = () => {
         <div key={consulta.id}>
           <p>
             <strong>
-              {consulta.medico?.nome} {consulta.data}
+              {consulta.medico?.nome} | {consulta.data} |{" "}
               {consulta.horario?.horario}
             </strong>
           </p>
@@ -126,8 +129,12 @@ const Home = () => {
         {medicos.map((medico) => (
           <div
             key={medico.id}
-            className="medico-card"
             onClick={() => setConsulta({ ...consulta, medicoId: medico.id })}
+            className={
+              medico.id == consulta.medicoId
+                ? "medico-card active"
+                : "medico-card"
+            }
           >
             <p>
               <strong>{medico.nome}</strong>
@@ -163,11 +170,19 @@ const Home = () => {
                 onClick={() =>
                   setConsulta({ ...consulta, horarioId: horario.id })
                 }
-                className="horario-card"
+                className={
+                  consulta.horarioId == horario.id
+                    ? "horario-card active"
+                    : "horario-card"
+                }
               >
                 {horario.horario}
               </div>
             ))
+          ) : consulta.data ? (
+            <p className="no-horarios">
+              Sem horário disponivel para essa data e esse médico
+            </p>
           ) : (
             <p className="no-horarios">
               Selecione um médico e um dia para ver os horários.

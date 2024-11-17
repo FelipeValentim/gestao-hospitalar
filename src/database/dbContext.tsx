@@ -21,7 +21,7 @@ class ClinicaDB extends Dexie {
       pacientes:
         "++id, telefone, endereco, dataNascimento, cpf, nome, email, senha",
       receitas: "++id, consultaId, prescricao",
-      consultas: "++id, data, status, observacoes, pacienteId, medicoId",
+      consultas: "++id, data, status, observacoes, pacienteId",
       horarios: "++id, horario, medicoId",
     });
 
