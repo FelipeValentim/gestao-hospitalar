@@ -8,3 +8,7 @@ export const setToken = (token: string) => {
     localStorage.setItem(gestaoHospitalarToken, token);
   }
 };
+
+export const removeToken = () => {
+  localStorage.removeItem(gestaoHospitalarToken);
+};

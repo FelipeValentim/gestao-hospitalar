@@ -311,17 +311,20 @@ button.gradient:hover {
   cursor: pointer;
 }
 
-.underlined-item .underline {
+.underlined-item:before {
+  content: "";
   position: absolute;
-  left: 0;
+  display: block;
+  left: 50%;
   bottom: 0;
-  height: 2px;
   background: linear-gradient(60deg, var(--primary-color), transparent)
     var(--secondary-color);
   width: 0;
+  height: 2px;
+  transform: translateX(-50%);
   transition: width var(--transition-time) ease-in-out;
 }
-.underlined-item:hover .underline {
+.underlined-item:hover:before {
   width: 100%;
 }
 

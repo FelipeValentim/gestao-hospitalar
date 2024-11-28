@@ -34,34 +34,34 @@ function App() {
   }
 
   return (
-    <>
+    <div className="app">
       <HashRouter>
         <Suspense fallback={<div className="loading"></div>}>
-          <AppLayout>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <AppLayout>
                     <Index />
-                  </ProtectedRoute>
-                }
-              >
-                <Route path="" element={<Home />} />
-              </Route>
-              <Route
-                path="/login"
-                element={
-                  <UnprotectedRoute>
-                    <Login />
-                  </UnprotectedRoute>
-                }
-              />
-            </Routes>
-          </AppLayout>
+                  </AppLayout>
+                </ProtectedRoute>
+              }
+            >
+              <Route path="" element={<Home />} />
+            </Route>
+            <Route
+              path="/login"
+              element={
+                <UnprotectedRoute>
+                  <Login />
+                </UnprotectedRoute>
+              }
+            />
+          </Routes>
         </Suspense>
       </HashRouter>
-    </>
+    </div>
   );
 }
 

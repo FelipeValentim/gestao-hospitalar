@@ -1,0 +1,15 @@
+.header {
+  color: #000;
+  /* text-transform: uppercase; */
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+  overflow: hidden;
+  background-color: #ffffff30;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.header img {
+  width: 65px;
+}
