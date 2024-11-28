@@ -8,7 +8,7 @@ import { ProtectedRoute, UnprotectedRoute } from "./helpers/auth";
 import Index from "./views/app";
 import Login from "./views/user/login/Login";
 import Home from "./views/app/home/Home";
-import AppLayout from "./layout/appLayout";
+import AppLayout from "./layout/AppLayout";
 
 function App() {
   const [loading, setLoading] = useState(true);

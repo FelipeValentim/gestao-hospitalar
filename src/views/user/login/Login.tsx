@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Login.css"; // Importação do arquivo CSS
 import { useDispatch } from "react-redux";
 import { generateToken } from "../../../services/jwtService";
