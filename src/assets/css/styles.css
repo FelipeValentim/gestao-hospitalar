@@ -1,0 +1,161 @@
+ul li {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Poppins", "Arial", Times, serif;
+  font-weight: bold;
+}
+
+input,
+div,
+span,
+button {
+  font-family: "Poppins", "Arial", Times, serif;
+}
+
+body {
+  /* background-color: #f2f2f2; */
+  background-color: #fff;
+}
+
+img {
+  width: 100%;
+}
+
+.login .card {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  margin: 0 auto;
+  align-items: center;
+  gap: 3rem;
+}
+
+.stages {
+  display: flex;
+  border: 1px solid var(--primary-color);
+  border-radius: 2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.stages .stage {
+  padding: 1rem 2rem;
+  transition: background-color 0.2s ease-in-out;
+  z-index: 999;
+}
+
+.stages .stage.current {
+  /* background-color: var(--primary-color); */
+  color: #fff;
+  font-weight: bold;
+}
+
+.stages .selector {
+  position: absolute;
+  width: 33.4%;
+  height: 100%;
+  background: var(--primary-color);
+  transition: left ease-in-out 0.2s;
+}
+
+.site {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  padding-top: 101px;
+}
+
+.gallery-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.gallery-items .shop-item {
+  flex: 0 0 calc(33.3333% - 2rem);
+  /* outline: 1px solid; */
+}
+
+/* ITEM */
+.shop-item .colors {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.shop-item .colors .color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #00000060;
+  display: block;
+  margin: 1px;
+}
+
+.shop-item .colors .selected {
+  border: 1px solid #000; /* Adiciona uma borda de 1px preta */
+  border-radius: 50%;
+}
+
+.shop-item .rating {
+  display: flex;
+  align-items: center;
+}
+
+.shop-item .image-card {
+  overflow: hidden;
+  position: relative;
+}
+
+.shop-item .add-to-cart {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 110%;
+  left: 50%;
+  /* color: #000; */
+  text-wrap: nowrap;
+  /* background-color: #fff; */
+  /* padding: 0.6rem; */
+  /* border-radius: var(--border-radius); */
+  /* cursor: pointer; */
+  opacity: 0;
+  transition: all ease-in-out 0.3s;
+}
+
+.shop-item:hover .add-to-cart {
+  top: 80%;
+  opacity: 1;
+}
+
+.main-header {
+  display: flex;
+  align-items: end;
+  gap: 4rem;
+}
+
+.main-header .header-order {
+  display: flex;
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4rem;
+}
+
+.gallery-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
