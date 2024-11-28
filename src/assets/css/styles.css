@@ -30,7 +30,8 @@ img {
 .login .card {
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
   align-items: center;
   gap: 3rem;

@@ -13,7 +13,6 @@ export const ProtectedRoute: FC<RouteProps> = ({ children }) => {
   const user = useSelector((state: RootState) => state.user);
 
   React.useEffect(() => {
-    console.log(user);
     setAuthenticated(user !== null);
 
     setLoading(false);
@@ -32,8 +31,6 @@ export const UnprotectedRoute: FC<RouteProps> = ({ children }) => {
   const user = useSelector((state: RootState) => state.user);
 
   React.useEffect(() => {
-    console.log(user);
-
     setAuthenticated(user !== null);
 
     setLoading(false);

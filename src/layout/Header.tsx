@@ -22,13 +22,13 @@ const Header = () => {
       <Link to={"/"}>
         <img src={logo} title="Clinica"></img>
       </Link>
-      <ul className="display-flex gap-2">
+      <ul className="display-flex gap-3">
         <li className="underlined-item padding-2">Consultas</li>
         <li className="underlined-item padding-2">Agendamento</li>
-      </ul>{" "}
-      <Link onClick={logout} className="underlined-item padding-2 display-flex">
+      </ul>
+      <span onClick={logout} className="underlined-item padding-2 display-flex">
         <LoginIcon />
-      </Link>
+      </span>
     </div>
   );
 };

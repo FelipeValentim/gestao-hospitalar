@@ -27,7 +27,6 @@ const Home = () => {
 
   const agendar = async () => {
     if (consulta.data && consulta.horarioId && consulta.medicoId && user) {
-      console.log(consulta, user);
       const consultaEntry = new Consulta(
         consulta.data,
         "Agendada",
