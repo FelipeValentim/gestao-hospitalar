@@ -44,7 +44,7 @@ const Login = () => {
         <InputGroup>
           <FormControl placeholder="CPF">
             <InputMask
-              mask={"999.999.999-00"}
+              mask={"999.999.999-99"}
               title="CPF"
               type="text"
               value={cpf}
