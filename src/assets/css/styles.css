@@ -1,3 +1,11 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f0f4f8;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
 ul li {
   list-style: none;
 }
@@ -11,16 +19,20 @@ h5 {
   font-weight: bold;
 }
 
+h2 {
+  text-align: center;
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e6e6e6;
+  padding-bottom: 10px;
+}
+
 input,
 div,
 span,
 button {
   font-family: "Poppins", "Arial", Times, serif;
-}
-
-body {
-  /* background-color: #f2f2f2; */
-  background-color: #fff;
 }
 
 img {
@@ -159,4 +171,14 @@ img {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
 }

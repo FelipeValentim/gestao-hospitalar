@@ -8,6 +8,7 @@ import { ProtectedRoute, UnprotectedRoute } from "./helpers/auth";
 import Index from "./views/app";
 import Login from "./views/user/login/Login";
 import Home from "./views/app/home/Home";
+import Schedule from "./views/app/schedule/Schedule";
 import AppLayout from "./layout/AppLayout";
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
               }
             >
               <Route path="" element={<Home />} />
+              <Route path="/agendamento" element={<Schedule />} />
             </Route>
             <Route
               path="/login"

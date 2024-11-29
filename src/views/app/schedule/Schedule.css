@@ -1,0 +1,133 @@
+/* App.css */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f0f4f8;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e6e6e6;
+  padding-bottom: 10px;
+}
+
+.medico-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.medico-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  flex-basis: calc(50% - 10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.medico-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.medico-card.active {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  background-color: #eee;
+}
+
+.medico-card p {
+  margin: 8px 0;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.horarios {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.date-picker {
+  margin: 20px 0;
+}
+
+.date-picker label {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.date-picker input {
+  font-size: 1rem;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.horario-card {
+  display: inline-block;
+  background-color: #e9f7ef;
+  border: 1px solid #a3d9a5;
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin: 10px;
+  color: #28a745;
+  font-weight: bold;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.horario-card:hover {
+  transform: scale(1.05);
+  background-color: #c8e6c9;
+}
+
+.horario-card.active {
+  transform: scale(1.05);
+  background-color: #c8e6c9;
+}
+
+.no-horarios {
+  font-size: 1.2rem;
+  color: #6c757d;
+  margin-top: 20px;
+}
+
+button {
+  display: block;
+  margin: 30px auto;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
