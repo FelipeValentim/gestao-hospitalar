@@ -4,6 +4,7 @@ import { Medico } from "../models/Medico";
 import { Consulta } from "../models/Consulta";
 import { Receita } from "../models/Receita";
 import { Horario } from "../models/Horario";
+import { Especialidade } from "../models/Especialidade";
 
 // Definindo a estrutura do banco de dados usando Dexie
 class ClinicaDB extends Dexie {
@@ -12,17 +13,19 @@ class ClinicaDB extends Dexie {
   consultas: Dexie.Table<Consulta, number>;
   receitas: Dexie.Table<Receita, number>;
   horarios: Dexie.Table<Horario, number>;
+  especialidades: Dexie.Table<Especialidade, number>;
 
   constructor() {
-    super("ClinicaDB");
+    super("GestaoHospitalar");
 
     this.version(1).stores({
-      medicos: "++id, especialidade, crm, cpf, nome, email, senha",
+      medicos: "++id, especialidadeId, crm, cpf, nome, email, senha",
       pacientes:
         "++id, telefone, endereco, dataNascimento, cpf, nome, email, senha",
       receitas: "++id, consultaId, prescricao",
       consultas: "++id, data, status, observacoes, pacienteId",
       horarios: "++id, horario, medicoId",
+      especialidades: "++id, nome",
     });
 
     this.pacientes = this.table("pacientes");
@@ -30,6 +33,7 @@ class ClinicaDB extends Dexie {
     this.consultas = this.table("consultas");
     this.receitas = this.table("receitas");
     this.horarios = this.table("horarios");
+    this.especialidades = this.table("especialidades");
 
     this.initializeDefaultValues();
   }
@@ -62,7 +66,7 @@ class ClinicaDB extends Dexie {
         nome: "Dr. João Silva",
         email: "joao.silva@clinica.com",
         senha: "123",
-        especialidade: "Cardiologia",
+        especialidade: 2,
         crm: "CRM123456",
         horarios: ["12:00", "14:20", "15:00"], // Horários disponíveis
       },
@@ -71,9 +75,27 @@ class ClinicaDB extends Dexie {
         nome: "Dra. Maria Oliveira",
         email: "maria.oliveira@clinica.com",
         senha: "123",
-        especialidade: "Pediatria",
+        especialidade: 1,
         crm: "CRM654321",
         horarios: ["14:00", "14:40", "15:20"], // Horários disponíveis
+      },
+      {
+        cpf: "55566677789",
+        nome: "Dra. Rebeca Andra",
+        email: "rebeca.andrade@clinica.com",
+        senha: "123",
+        especialidade: 3,
+        crm: "CRM654322",
+        horarios: ["12:40", "15:40", "18:00"], // Horários disponíveis
+      },
+      {
+        cpf: "55566677799",
+        nome: "Dr. Jorge Azevedo",
+        email: "jorge.azevedo@clinica.com",
+        senha: "123",
+        especialidade: 3,
+        crm: "CRM654323",
+        horarios: ["12:00", "12:40", "16:20"], // Horários disponíveis
       },
     ];
 
@@ -99,6 +121,20 @@ class ClinicaDB extends Dexie {
           const horarioEntry = new Horario(horario, medicoId);
           await this.horarios.add(horarioEntry);
         }
+      }
+    }
+
+    const especialidadesPadrao = ["Cardiologia", "Pediatria", "Ortopedia"];
+    for (const especialidade of especialidadesPadrao) {
+      let especialidadeEntry = await this.especialidades
+        .where("nome")
+        .equals(especialidade)
+        .first();
+
+      if (!especialidadeEntry) {
+        especialidadeEntry = new Especialidade(especialidade);
+
+        await this.especialidades.add(especialidadeEntry);
       }
     }
   }

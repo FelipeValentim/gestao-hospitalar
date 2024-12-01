@@ -1,8 +1,10 @@
 import { Usuario } from "./Usuario";
 import { Consulta } from "./Consulta";
+import { Especialidade } from "./Especialidade";
 
 export class Medico extends Usuario {
-  especialidade: string;
+  especialidadeId: number;
+  especialidade?: Especialidade;
   crm: string;
 
   constructor(
@@ -10,14 +12,14 @@ export class Medico extends Usuario {
     nome: string,
     email: string,
     senha: string,
-    especialidade: string,
+    especialidadeId: number,
     crm: string
   ) {
     // Chama o construtor da classe Usuario com os parâmetros necessários
     super(cpf, nome, email, senha);
 
     // Inicializa as propriedades específicas de Medico
-    this.especialidade = especialidade;
+    this.especialidadeId = especialidadeId;
     this.crm = crm;
   }
 

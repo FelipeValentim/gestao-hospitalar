@@ -48,6 +48,12 @@ const Home = () => {
             let medico;
             if (horario) {
               medico = await db.medicos.get(horario.medicoId);
+              if (medico) {
+                medico.especialidade = await db.especialidades
+                  .where("id")
+                  .equals(medico.especialidadeId)
+                  .first();
+              }
             }
             return { ...consulta, horario, medico };
           })
@@ -73,7 +79,7 @@ const Home = () => {
                 )}
               </span>
               <span className="especialidade">
-                {consulta.medico?.especialidade}
+                {consulta.medico?.especialidade?.nome}
               </span>
             </div>
             <div

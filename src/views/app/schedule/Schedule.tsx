@@ -48,8 +48,18 @@ const Schedule = () => {
   };
 
   const getMedicos = async () => {
-    const data = await db.medicos.orderBy("especialidade").toArray();
-    setMedicos(data);
+    const data = await Promise.all(
+      (
+        await db.medicos.orderBy("especialidadeId").toArray()
+      ).map(async (medico) => {
+        const especialidade = await db.especialidades.get(
+          medico.especialidadeId
+        );
+
+        return { ...medico, especialidade };
+      })
+    );
+    setMedicos(data as Medico[]);
   };
 
   const getHorarios = async () => {
@@ -110,7 +120,7 @@ const Schedule = () => {
             <p>
               <strong>{medico.nome}</strong>
             </p>
-            <p>{medico.especialidade}</p>
+            <p>{medico.especialidade?.nome}</p>
           </div>
         ))}
       </div>
