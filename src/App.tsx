@@ -5,8 +5,10 @@ import { decodeToken } from "./services/jwtService";
 import { setUser } from "./redux/user";
 import { Suspense, useEffect, useState } from "react";
 import { ProtectedRoute, UnprotectedRoute } from "./helpers/auth";
-import Index from "./views/app";
+import AppIndex from "./views/app";
+import AuthIndex from "./views/user";
 import Login from "./views/user/login/Login";
+import Register from "./views/user/register/Register";
 import Home from "./views/app/home/Home";
 import Schedule from "./views/app/schedule/Schedule";
 import AppLayout from "./layout/AppLayout";
@@ -44,7 +46,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AppLayout>
-                    <Index />
+                    <AppIndex />
                   </AppLayout>
                 </ProtectedRoute>
               }
@@ -53,13 +55,16 @@ function App() {
               <Route path="/agendamento" element={<Schedule />} />
             </Route>
             <Route
-              path="/login"
+              path="/user"
               element={
                 <UnprotectedRoute>
-                  <Login />
+                  <AuthIndex />
                 </UnprotectedRoute>
               }
-            />
+            >
+              <Route path="/user/login" element={<Login />} />
+              <Route path="/user/register" element={<Register />} />
+            </Route>
           </Routes>
         </Suspense>
       </HashRouter>

@@ -11,8 +11,9 @@ export const ProtectedRoute: FC<RouteProps> = ({ children }) => {
   const [authenticated, setAuthenticated] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const user = useSelector((state: RootState) => state.user);
-
   React.useEffect(() => {
+    console.log("teste", user);
+
     setAuthenticated(user !== null);
 
     setLoading(false);
@@ -22,7 +23,7 @@ export const ProtectedRoute: FC<RouteProps> = ({ children }) => {
     return <div className="loading"></div>;
   }
 
-  return authenticated ? children : <Navigate to="/login" />;
+  return authenticated ? children : <Navigate to="/user/login" />;
 };
 
 export const UnprotectedRoute: FC<RouteProps> = ({ children }) => {

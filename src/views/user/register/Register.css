@@ -5,7 +5,6 @@
 .auth {
   padding-top: 101px;
 }
-
 @media (max-width: 600px) {
   .auth {
     padding-top: 0;

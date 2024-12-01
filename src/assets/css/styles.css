@@ -39,7 +39,7 @@ img {
   width: 100%;
 }
 
-.login .card {
+.auth .card {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -47,6 +47,11 @@ img {
   margin: 0 auto;
   align-items: center;
   gap: 3rem;
+}
+@media (max-width: 600px) {
+  .auth.card {
+    height: 100dvh;
+  }
 }
 
 .stages {

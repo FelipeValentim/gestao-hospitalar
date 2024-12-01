@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import store from "./redux/configureStore.tsx";
 import "/src/assets/css/common.css";
 import "/src/assets/css/styles.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -13,5 +15,6 @@ createRoot(document.getElementById("root")!).render(
         <App />
       </Suspense>
     </Provider>
+    <ToastContainer />
   </StrictMode>
 );

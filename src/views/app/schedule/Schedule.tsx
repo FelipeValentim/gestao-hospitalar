@@ -6,6 +6,7 @@ import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
 import "./Schedule.css"; // Certifique-se de importar o arquivo CSS
+import { toast } from "react-toastify";
 
 // Definir a interface Consulta
 interface ConsultaState {
@@ -39,6 +40,10 @@ const Schedule = () => {
         horarioId: null,
       });
       setHorarios([]);
+      toast.success("Consulta agendada com sucesso", {
+        position: "top-left",
+        autoClose: 5000,
+      });
     }
   };
 
