@@ -5,6 +5,7 @@ import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
 const Home = () => {
   const [consultas, setConsultas] = useState<Array<Consulta>>([]);
   const user = useSelector((state: RootState) => state.user);
@@ -30,6 +31,10 @@ const Home = () => {
   const deleteConsulta = (id: number) => {
     db.consultas.delete(id);
     setConsultas(consultas.filter((x) => x.id !== id));
+    toast.success("Consulta deletada com sucesso", {
+      position: "top-left",
+      autoClose: 5000,
+    });
   };
 
   useEffect(() => {
