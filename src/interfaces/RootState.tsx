@@ -1,4 +1,6 @@
+import User from "./User";
+
 interface RootState {
-  user: number | null;
+  user: User | null;
 }
 export default RootState;

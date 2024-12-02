@@ -21,18 +21,34 @@ const Login = () => {
 
   const handleSubmit = async () => {
     if (cpf && password) {
+      // Tenta encontrar um paciente
       const paciente = await db.pacientes
         .filter((x) => x.cpf == cpf && x.senha == password)
         .first();
+
       if (paciente) {
-        const token = await generateToken(paciente.id);
+        // Usuário é um paciente
+        const token = await generateToken(paciente.id, ["paciente"]);
         setToken(token);
-        dispatch(setUser(paciente.id));
+        dispatch(setUser({ id: paciente.id, roles: ["paciente"] }));
       } else {
-        toast.error("Usuário ou senha incorreta", {
-          position: "top-right",
-          autoClose: 5000,
-        });
+        // Caso não seja um paciente, tenta encontrar um médico
+        const medico = await db.medicos
+          .filter((x) => x.cpf == cpf && x.senha == password)
+          .first();
+
+        if (medico) {
+          // Usuário é um médico
+          const token = await generateToken(medico.id, ["medico"]);
+          setToken(token);
+          dispatch(setUser({ id: medico.id, roles: ["medico"] }));
+        } else {
+          // Caso nenhum seja encontrado, exibe erro
+          toast.error("Usuário ou senha incorreta", {
+            position: "top-right",
+            autoClose: 5000,
+          });
+        }
       }
     }
   };

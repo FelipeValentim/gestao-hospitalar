@@ -4,8 +4,6 @@ import "./Home.css"; // Certifique-se de importar o arquivo CSS
 import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { toast } from "react-toastify";
 const Home = () => {
   const [consultas, setConsultas] = useState<Array<Consulta>>([]);
   const user = useSelector((state: RootState) => state.user);
@@ -28,35 +26,23 @@ const Home = () => {
     return `${day}/${month}/${year} às ${hours}:${minutes}`;
   };
 
-  const deleteConsulta = (id: number) => {
-    db.consultas.delete(id);
-    setConsultas(consultas.filter((x) => x.id !== id));
-    toast.success("Consulta deletada com sucesso", {
-      position: "top-left",
-      autoClose: 5000,
-    });
-  };
-  console.log(user);
-
   useEffect(() => {
     const getConsultas = async () => {
       if (user) {
+        const horarios = await db.horarios
+          .where("medicoId")
+          .equals(user.id)
+          .toArray();
+
         const data = await Promise.all(
           (
-            await db.consultas.where("pacienteId").equals(user.id).toArray()
+            await db.consultas
+              .filter((x) => horarios.some((h) => h.id === x.horarioId))
+              .toArray()
           ).map(async (consulta) => {
             const horario = await db.horarios.get(consulta.horarioId);
-            let medico;
-            if (horario) {
-              medico = await db.medicos.get(horario.medicoId);
-              if (medico) {
-                medico.especialidade = await db.especialidades
-                  .where("id")
-                  .equals(medico.especialidadeId)
-                  .first();
-              }
-            }
-            return { ...consulta, horario, medico };
+            const paciente = await db.pacientes.get(consulta.pacienteId);
+            return { ...consulta, horario, paciente };
           })
         );
 
@@ -71,23 +57,15 @@ const Home = () => {
       <h2>Consultas</h2>
       <div className="consultas">
         {consultas.map((consulta) => (
-          <div className="consulta">
-            <div key={consulta.id} className="card info">
-              <span className="medico">{consulta.medico?.nome}</span>
+          <div className="consulta" key={consulta.id}>
+            <div className="card info">
+              <span className="medico">{consulta.paciente?.nome}</span>
               <span className="data">
                 {formatDateTime(
                   `${consulta.data} ${consulta.horario?.horario}`
                 )}
               </span>
-              <span className="especialidade">
-                {consulta.medico?.especialidade?.nome}
-              </span>
-            </div>
-            <div
-              className="card delete"
-              onClick={() => deleteConsulta(consulta.id)}
-            >
-              <DeleteIcon />
+              <span className="status">{consulta.status}</span>
             </div>
           </div>
         ))}

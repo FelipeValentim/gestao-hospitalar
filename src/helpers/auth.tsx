@@ -5,19 +5,27 @@ import RootState from "../interfaces/RootState";
 
 interface RouteProps {
   children: ReactNode;
+  roles?: string[];
 }
 
-export const ProtectedRoute: FC<RouteProps> = ({ children }) => {
+export const ProtectedRoute: FC<RouteProps> = ({ children, roles }) => {
   const [authenticated, setAuthenticated] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const user = useSelector((state: RootState) => state.user);
   React.useEffect(() => {
-    console.log("teste", user);
-
-    setAuthenticated(user !== null);
+    if (user !== null) {
+      const userRoles = user.roles;
+      if (roles) {
+        setAuthenticated(roles.some((role) => userRoles.includes(role)));
+      } else {
+        setAuthenticated(true);
+      }
+    } else {
+      setAuthenticated(false);
+    }
 
     setLoading(false);
-  }, [user]);
+  }, [user, roles]);
 
   if (loading) {
     return <div className="loading"></div>;

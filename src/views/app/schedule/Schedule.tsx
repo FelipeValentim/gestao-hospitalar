@@ -34,7 +34,7 @@ const Schedule = () => {
       const consultaEntry = new Consulta(
         consulta.data,
         "Agendada",
-        user,
+        user.id,
         consulta.horarioId
       );
       await db.consultas.add(consultaEntry);

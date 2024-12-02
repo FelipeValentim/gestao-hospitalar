@@ -7,6 +7,7 @@ export class Consulta {
   data: string;
   status: "Agendada" | "Realizada" | "Cancelada";
   pacienteId: number;
+  paciente?: Paciente;
   medico?: Medico;
   horarioId: number;
   horario?: Horario;
