@@ -1,29 +1,30 @@
-import { Horario } from "./Horario";
 import { Medico } from "./Medico";
 import { Paciente } from "./Paciente";
 
 export class Consulta {
   id!: number;
   data: string;
+  horario: string;
   status: "Agendada" | "Realizada" | "Cancelada";
   pacienteId: number;
   paciente?: Paciente;
+  medicoId: number;
   medico?: Medico;
-  horarioId: number;
-  horario?: Horario;
   observacoes?: string | null;
 
   constructor(
     data: string,
+    horario: string,
     status: "Agendada" | "Realizada" | "Cancelada",
     pacienteId: number,
-    horarioId: number,
+    medicoId: number,
     observacoes?: string
   ) {
     this.data = data;
+    this.horario = horario;
     this.status = status;
     this.pacienteId = pacienteId;
-    this.horarioId = horarioId;
+    this.medicoId = medicoId;
     this.observacoes = observacoes;
   }
 
@@ -32,11 +33,11 @@ export class Consulta {
     paciente: Paciente,
     data: Date,
     observacoes: string,
-    horario: Horario
+    horario: string
   ): void {
     // Lógica para marcar uma consulta
     console.log(
-      `Consulta marcada para o paciente ${paciente.telefone} com o médico ${medico.crm}, ${data}, ${horario.horario}, ${observacoes}`
+      `Consulta marcada para o paciente ${paciente.telefone} com o médico ${medico.crm}, ${data}, ${horario}, ${observacoes}`
     );
   }
 

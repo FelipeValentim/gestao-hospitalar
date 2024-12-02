@@ -29,20 +29,12 @@ const Home = () => {
   useEffect(() => {
     const getConsultas = async () => {
       if (user) {
-        const horarios = await db.horarios
-          .where("medicoId")
-          .equals(user.id)
-          .toArray();
-
         const data = await Promise.all(
           (
-            await db.consultas
-              .filter((x) => horarios.some((h) => h.id === x.horarioId))
-              .toArray()
+            await db.consultas.filter((x) => x.medicoId == user.id).toArray()
           ).map(async (consulta) => {
-            const horario = await db.horarios.get(consulta.horarioId);
             const paciente = await db.pacientes.get(consulta.pacienteId);
-            return { ...consulta, horario, paciente };
+            return { ...consulta, paciente };
           })
         );
 
@@ -61,9 +53,7 @@ const Home = () => {
             <div className="card info">
               <span className="medico">{consulta.paciente?.nome}</span>
               <span className="data">
-                {formatDateTime(
-                  `${consulta.data} ${consulta.horario?.horario}`
-                )}
+                {formatDateTime(`${consulta.data} ${consulta.horario}`)}
               </span>
               <span className="status">{consulta.status}</span>
             </div>

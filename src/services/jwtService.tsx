@@ -7,13 +7,15 @@ const SECRET_KEY = new TextEncoder().encode(
 
 export interface CustomJwtPayload extends JWTPayload {
   id: number;
+  name: string;
   roles: string[];
 }
 export const generateToken = async (
   id: number,
+  name: string,
   roles: string[]
 ): Promise<string> => {
-  const jwt = await new SignJWT({ id: id, roles }) // Dados que você quer incluir no payload
+  const jwt = await new SignJWT({ id: id, roles, name }) // Dados que você quer incluir no payload
     .setProtectedHeader({ alg: "HS256" }) // Define o algoritmo
     .setIssuedAt() // Define a hora de emissão
     .setExpirationTime("2h") // Tempo de expiração (ex.: 2 horas)

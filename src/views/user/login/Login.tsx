@@ -28,9 +28,13 @@ const Login = () => {
 
       if (paciente) {
         // Usuário é um paciente
-        const token = await generateToken(paciente.id, ["paciente"]);
+        const token = await generateToken(paciente.id, paciente.nome, [
+          "paciente",
+        ]);
         setToken(token);
-        dispatch(setUser({ id: paciente.id, roles: ["paciente"] }));
+        dispatch(
+          setUser({ id: paciente.id, name: paciente.nome, roles: ["paciente"] })
+        );
       } else {
         // Caso não seja um paciente, tenta encontrar um médico
         const medico = await db.medicos
@@ -39,9 +43,11 @@ const Login = () => {
 
         if (medico) {
           // Usuário é um médico
-          const token = await generateToken(medico.id, ["medico"]);
+          const token = await generateToken(medico.id, medico.nome, ["medico"]);
           setToken(token);
-          dispatch(setUser({ id: medico.id, roles: ["medico"] }));
+          dispatch(
+            setUser({ id: medico.id, name: medico.nome, roles: ["medico"] })
+          );
         } else {
           // Caso nenhum seja encontrado, exibe erro
           toast.error("Usuário ou senha incorreta", {

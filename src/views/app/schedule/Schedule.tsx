@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Medico } from "../../../models/Medico";
 import { db } from "../../../database/dbContext";
-import { Horario } from "../../../models/Horario";
+import { HorarioDisponibilidade } from "../../../models/HorarioDisponibilidade";
 import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
@@ -14,34 +14,40 @@ import { useNavigate } from "react-router-dom";
 interface ConsultaState {
   medicoId: number | null;
   data: string | null;
-  horarioId: number | null;
+  horarioDisponibilidade: HorarioDisponibilidade | null;
 }
 
 const Schedule = () => {
   const navigate = useNavigate();
 
   const [medicos, setMedicos] = useState<Array<Medico>>([]);
-  const [horarios, setHorarios] = useState<Array<Horario>>([]);
+  const [horarios, setHorarios] = useState<Array<HorarioDisponibilidade>>([]);
   const [consulta, setConsulta] = useState<ConsultaState>({
     medicoId: null,
     data: null,
-    horarioId: null,
+    horarioDisponibilidade: null,
   });
   const user = useSelector((state: RootState) => state.user);
 
   const agendar = async () => {
-    if (consulta.data && consulta.horarioId && consulta.medicoId && user) {
+    if (
+      consulta.data &&
+      consulta.horarioDisponibilidade &&
+      consulta.medicoId &&
+      user
+    ) {
       const consultaEntry = new Consulta(
         consulta.data,
+        consulta.horarioDisponibilidade.horario,
         "Agendada",
         user.id,
-        consulta.horarioId
+        consulta.medicoId
       );
       await db.consultas.add(consultaEntry);
       setConsulta({
         medicoId: null,
         data: null,
-        horarioId: null,
+        horarioDisponibilidade: null,
       });
       setHorarios([]);
       toast.success("Consulta agendada com sucesso", {
@@ -77,16 +83,16 @@ const Schedule = () => {
       const consultas = await db.consultas
         .filter(
           (x) =>
-            data.some((h) => h.id == x.horarioId) && x.data == consulta.data
+            data.some((h) => h.horario == x.horario) && x.data == consulta.data
         )
         .toArray();
 
       const horariosDisponiveis = data.filter(
-        (h) => !consultas.some((x) => x.horarioId === h.id)
+        (h) => !consultas.some((x) => x.horario === h.horario)
       );
 
       setHorarios(horariosDisponiveis);
-      setConsulta({ ...consulta, horarioId: null }); // Limpa o horário ao mudar a data
+      setConsulta({ ...consulta, horarioDisponibilidade: null }); // Limpa o horário ao mudar a data
     }
   };
 
@@ -154,10 +160,10 @@ const Schedule = () => {
               <div
                 key={horario.id}
                 onClick={() =>
-                  setConsulta({ ...consulta, horarioId: horario.id })
+                  setConsulta({ ...consulta, horarioDisponibilidade: horario })
                 }
                 className={
-                  consulta.horarioId == horario.id
+                  consulta.horarioDisponibilidade?.id == horario.id
                     ? "horario-card active"
                     : "horario-card"
                 }
@@ -177,7 +183,7 @@ const Schedule = () => {
         </div>
       )}
 
-      {consulta.horarioId && (
+      {consulta.horarioDisponibilidade && (
         <Button
           className="agendar mt-4"
           text={"Agendar"}

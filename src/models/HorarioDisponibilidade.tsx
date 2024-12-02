@@ -1,4 +1,4 @@
-export class Horario {
+export class HorarioDisponibilidade {
   id!: number;
   medicoId: number;
   horario: string;

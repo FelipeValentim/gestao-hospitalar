@@ -11,6 +11,7 @@ import Login from "./views/user/login/Login";
 import Register from "./views/user/register/Register";
 import HomePaciente from "./views/app/home/Home";
 import HomeAdmin from "./views/admin/home/Home";
+import HorarioAdmin from "./views/admin/horario/Horario";
 
 import Schedule from "./views/app/schedule/Schedule";
 import AppLayout from "./layout/AppLayout";
@@ -30,7 +31,11 @@ function App() {
         const payload = await decodeToken(token);
         if (payload.data) {
           dispatch(
-            setUser({ id: payload.data.id, roles: [...payload.data.roles] })
+            setUser({
+              id: payload.data.id,
+              name: payload.data.name,
+              roles: [...payload.data.roles],
+            })
           );
         }
       }
@@ -65,12 +70,16 @@ function App() {
               }
             >
               {roles.some((r) => r === "paciente") ? (
-                <Route path="" element={<HomePaciente />} />
+                <>
+                  <Route path="" element={<HomePaciente />} />
+                  <Route path="/agendamento" element={<Schedule />} />
+                </>
               ) : (
-                <Route path="" element={<HomeAdmin />} />
+                <>
+                  <Route path="" element={<HomeAdmin />} />
+                  <Route path="/horarios" element={<HorarioAdmin />} />
+                </>
               )}
-
-              <Route path="/agendamento" element={<Schedule />} />
             </Route>
             <Route
               path="/user"

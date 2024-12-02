@@ -3,7 +3,7 @@ import { Paciente } from "../models/Paciente";
 import { Medico } from "../models/Medico";
 import { Consulta } from "../models/Consulta";
 import { Receita } from "../models/Receita";
-import { Horario } from "../models/Horario";
+import { HorarioDisponibilidade } from "../models/HorarioDisponibilidade";
 import { Especialidade } from "../models/Especialidade";
 
 // Definindo a estrutura do banco de dados usando Dexie
@@ -12,7 +12,7 @@ class ClinicaDB extends Dexie {
   medicos: Dexie.Table<Medico, number>;
   consultas: Dexie.Table<Consulta, number>;
   receitas: Dexie.Table<Receita, number>;
-  horarios: Dexie.Table<Horario, number>;
+  horarios: Dexie.Table<HorarioDisponibilidade, number>;
   especialidades: Dexie.Table<Especialidade, number>;
 
   constructor() {
@@ -118,7 +118,7 @@ class ClinicaDB extends Dexie {
         const medicoId = await this.medicos.add(medico);
 
         for (const horario of medicoData.horarios) {
-          const horarioEntry = new Horario(horario, medicoId);
+          const horarioEntry = new HorarioDisponibilidade(horario, medicoId);
           await this.horarios.add(horarioEntry);
         }
       }
