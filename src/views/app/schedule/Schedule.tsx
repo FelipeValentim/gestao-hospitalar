@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
 import "./Schedule.css"; // Certifique-se de importar o arquivo CSS
 import { toast } from "react-toastify";
+import Button from "../../../components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 // Definir a interface Consulta
 interface ConsultaState {
@@ -16,6 +18,8 @@ interface ConsultaState {
 }
 
 const Schedule = () => {
+  const navigate = useNavigate();
+
   const [medicos, setMedicos] = useState<Array<Medico>>([]);
   const [horarios, setHorarios] = useState<Array<Horario>>([]);
   const [consulta, setConsulta] = useState<ConsultaState>({
@@ -44,6 +48,7 @@ const Schedule = () => {
         position: "top-left",
         autoClose: 5000,
       });
+      navigate("/");
     }
   };
 
@@ -172,7 +177,14 @@ const Schedule = () => {
         </div>
       )}
 
-      {consulta.horarioId && <button onClick={agendar}>Agendar</button>}
+      {consulta.horarioId && (
+        <Button
+          className="agendar mt-4"
+          text={"Agendar"}
+          title={"Agendar"}
+          onClick={agendar}
+        />
+      )}
     </div>
   );
 };
