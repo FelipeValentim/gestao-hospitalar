@@ -74,11 +74,11 @@ const Header = () => {
             <li className="underlined-item padding-2">Agendamento</li>
           </NavLink>
         )}
-        {medicoRoles.some((r) => user?.roles.includes(r)) && (
+        {/* {medicoRoles.some((r) => user?.roles.includes(r)) && (
           <NavLink to={"/horarios"}>
             <li className="underlined-item padding-2">Horários</li>
           </NavLink>
-        )}
+        )} */}
       </ul>
       <Hamburguer />
     </div>

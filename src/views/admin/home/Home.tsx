@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { db } from "../../../database/dbContext";
 import "./Home.css"; // Certifique-se de importar o arquivo CSS
 import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
 import { Medico } from "../../../models/Medico";
+import ClearIcon from "@mui/icons-material/Clear";
+import DoneIcon from "@mui/icons-material/Done";
 const Home = () => {
   const [consultas, setConsultas] = useState<Array<Consulta>>([]);
   const user = useSelector((state: RootState) => state.user);
@@ -37,12 +38,34 @@ const Home = () => {
     getConsultas();
   }, [user]);
 
+  const realizar = async (consultaId: number) => {
+    await Consulta.realizaConsulta(consultaId);
+    alterarStatus(consultaId, "Realizada");
+  };
+
+  const alterarStatus = (id: number, status: "Realizada" | "Cancelada") => {
+    setConsultas(
+      (prevConsultas) =>
+        prevConsultas.map((consulta) =>
+          consulta.id === id ? { ...consulta, status } : consulta
+        ) as Consulta[]
+    );
+  };
+
+  const cancelar = async (consultaId: number) => {
+    await Consulta.cancelaConsulta(consultaId);
+    alterarStatus(consultaId, "Cancelada");
+  };
+
   return (
     <div className="container">
       <h2>Consultas</h2>
       <div className="consultas">
         {consultas.map((consulta) => (
-          <div className="consulta" key={consulta.id}>
+          <div
+            className={`consulta ${consulta.status.toLowerCase()}`}
+            key={consulta.id}
+          >
             <div className="card info">
               <span className="medico">{consulta.paciente?.nome}</span>
               <span className="data">
@@ -50,6 +73,22 @@ const Home = () => {
               </span>
               <span className="status">{consulta.status}</span>
             </div>
+            {consulta.status === "Agendada" && (
+              <>
+                <div
+                  className="card delete"
+                  onClick={() => realizar(consulta.id)}
+                >
+                  <DoneIcon />
+                </div>
+                <div
+                  className="card delete"
+                  onClick={() => cancelar(consulta.id)}
+                >
+                  <ClearIcon />
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>

@@ -22,8 +22,8 @@ export class Paciente extends Usuario {
     this.dataNascimento = dataNascimento;
   }
 
-  criarConta(): void {
-    db.pacientes.add(this);
+  async criarConta(): Promise<void> {
+    await db.pacientes.add(this);
   }
 
   static async getConsultas(pacienteId: number): Promise<Consulta[]> {

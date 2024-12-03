@@ -2,8 +2,12 @@
 
 .consulta {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   gap: 1rem;
+}
+
+.consulta.agendada {
+  grid-template-columns: 1fr auto auto;
 }
 
 .consulta .info {

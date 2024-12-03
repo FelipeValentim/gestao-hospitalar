@@ -29,13 +29,28 @@ export class Consulta {
     this.observacoes = observacoes;
   }
 
+  static async getConsulta(consultaId: number): Promise<Consulta | undefined> {
+    return await db.consultas.get(consultaId);
+  }
+
   async criarConsulta(): Promise<void> {
     await db.consultas.add(this);
   }
 
-  cancelarConsulta(consulta: Consulta): void {
+  static async realizaConsulta(consultaId: number): Promise<void> {
     // Lógica para cancelar uma consulta
-    consulta.status = "Cancelada";
-    console.log("Consulta cancelada");
+    const consulta = await this.getConsulta(consultaId);
+    if (consulta) {
+      consulta.status = "Realizada";
+      await db.consultas.update(consulta.id, consulta);
+    }
+  }
+
+  static async cancelaConsulta(consultaId: number): Promise<void> {
+    const consulta = await this.getConsulta(consultaId);
+    if (consulta) {
+      consulta.status = "Cancelada";
+      await db.consultas.update(consulta.id, consulta);
+    }
   }
 }
