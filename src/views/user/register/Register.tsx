@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./Register.css"; // Importação do arquivo CSS
-import { db } from "../../../database/dbContext";
 import InputGroup from "../../../components/InputGroup";
 import FormControl from "../../../components/FormControl";
 import InputMask from "../../../components/InputMask";
@@ -36,8 +35,8 @@ const Register = () => {
 
     if (cpf && password && celular && nome) {
       if (phonePattern.test(celular) && cpf.length === 11) {
-        const teste = await db.pacientes.where("cpf").equals(cpf).first();
-        if (teste == undefined) {
+        const existe = await Paciente.CPFExistente(cpf);
+        if (!existe) {
           const paciente = new Paciente(
             cpf,
             nome,
@@ -47,7 +46,9 @@ const Register = () => {
             "Rua Exemplo, 123",
             new Date(1990, 0, 1)
           );
-          db.pacientes.add(paciente);
+
+          paciente.criarConta();
+
           toast.success("Usuário criado com sucesso!", {
             position: "top-left",
             autoClose: 5000,

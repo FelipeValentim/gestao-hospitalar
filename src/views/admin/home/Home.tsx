@@ -4,6 +4,7 @@ import "./Home.css"; // Certifique-se de importar o arquivo CSS
 import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
+import { Medico } from "../../../models/Medico";
 const Home = () => {
   const [consultas, setConsultas] = useState<Array<Consulta>>([]);
   const user = useSelector((state: RootState) => state.user);
@@ -29,16 +30,8 @@ const Home = () => {
   useEffect(() => {
     const getConsultas = async () => {
       if (user) {
-        const data = await Promise.all(
-          (
-            await db.consultas.filter((x) => x.medicoId == user.id).toArray()
-          ).map(async (consulta) => {
-            const paciente = await db.pacientes.get(consulta.pacienteId);
-            return { ...consulta, paciente };
-          })
-        );
-
-        setConsultas(data as Consulta[]);
+        const data = await Medico.getConsultas(user.id);
+        setConsultas(data);
       }
     };
     getConsultas();

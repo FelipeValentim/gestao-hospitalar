@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Medico } from "../../../models/Medico";
-import { db } from "../../../database/dbContext";
 import { HorarioDisponibilidade } from "../../../models/HorarioDisponibilidade";
 import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
@@ -43,7 +42,9 @@ const Schedule = () => {
         user.id,
         consulta.medicoId
       );
-      await db.consultas.add(consultaEntry);
+
+      await consultaEntry.criarConsulta();
+
       setConsulta({
         medicoId: null,
         data: null,
@@ -59,39 +60,18 @@ const Schedule = () => {
   };
 
   const getMedicos = async () => {
-    const data = await Promise.all(
-      (
-        await db.medicos.orderBy("especialidadeId").toArray()
-      ).map(async (medico) => {
-        const especialidade = await db.especialidades.get(
-          medico.especialidadeId
-        );
-
-        return { ...medico, especialidade };
-      })
-    );
-    setMedicos(data as Medico[]);
+    const data = await Medico.getAll();
+    setMedicos(data);
   };
 
   const getHorarios = async () => {
     if (consulta.medicoId && consulta.data) {
-      const data = await db.horarios
-        .where("medicoId")
-        .equals(consulta.medicoId)
-        .toArray();
-
-      const consultas = await db.consultas
-        .filter(
-          (x) =>
-            data.some((h) => h.horario == x.horario) && x.data == consulta.data
-        )
-        .toArray();
-
-      const horariosDisponiveis = data.filter(
-        (h) => !consultas.some((x) => x.horario === h.horario)
+      const horarios = await Medico.getHorariosDisponiveis(
+        consulta.medicoId,
+        consulta.data
       );
 
-      setHorarios(horariosDisponiveis);
+      setHorarios(horarios);
       setConsulta({ ...consulta, horarioDisponibilidade: null }); // Limpa o horário ao mudar a data
     }
   };

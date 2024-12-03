@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
+import { Paciente } from "../../../models/Paciente";
 const Home = () => {
   const [consultas, setConsultas] = useState<Array<Consulta>>([]);
   const user = useSelector((state: RootState) => state.user);
@@ -40,22 +41,9 @@ const Home = () => {
   useEffect(() => {
     const getConsultas = async () => {
       if (user) {
-        const data = await Promise.all(
-          (
-            await db.consultas.where("pacienteId").equals(user.id).toArray()
-          ).map(async (consulta) => {
-            const medico = await db.medicos.get(consulta.medicoId);
-            if (medico) {
-              medico.especialidade = await db.especialidades
-                .where("id")
-                .equals(medico.especialidadeId)
-                .first();
-            }
-            return { ...consulta, medico };
-          })
-        );
+        const data = await Paciente.getConsultas(user.id);
 
-        setConsultas(data as Consulta[]);
+        setConsultas(data);
       }
     };
     getConsultas();

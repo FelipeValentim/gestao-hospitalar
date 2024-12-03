@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { generateToken } from "../../../services/jwtService";
 import { setToken } from "../../../helpers/storage";
 import { setUser } from "../../../redux/user";
-import { db } from "../../../database/dbContext";
 import InputGroup from "../../../components/InputGroup";
 import FormControl from "../../../components/FormControl";
 import InputMask from "../../../components/InputMask";
@@ -13,6 +12,8 @@ import { Link } from "react-router-dom";
 import InputPassword from "../../../components/InputPassword";
 import logo from "../../../assets/images/logo-texto.png";
 import { toast } from "react-toastify";
+import { Medico } from "../../../models/Medico";
+import { Paciente } from "../../../models/Paciente";
 
 const Login = () => {
   const [cpf, setCpf] = useState<string>("");
@@ -22,9 +23,7 @@ const Login = () => {
   const handleSubmit = async () => {
     if (cpf && password) {
       // Tenta encontrar um paciente
-      const paciente = await db.pacientes
-        .filter((x) => x.cpf == cpf && x.senha == password)
-        .first();
+      const paciente = await Paciente.login(cpf, password);
 
       if (paciente) {
         // Usuário é um paciente
@@ -37,9 +36,7 @@ const Login = () => {
         );
       } else {
         // Caso não seja um paciente, tenta encontrar um médico
-        const medico = await db.medicos
-          .filter((x) => x.cpf == cpf && x.senha == password)
-          .first();
+        const medico = await Medico.login(cpf, password);
 
         if (medico) {
           // Usuário é um médico

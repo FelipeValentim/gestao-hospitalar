@@ -1,3 +1,5 @@
+import { db } from "../database/dbContext";
+import { Consulta } from "./Consulta";
 import { Usuario } from "./Usuario";
 
 export class Paciente extends Usuario {
@@ -20,10 +22,39 @@ export class Paciente extends Usuario {
     this.dataNascimento = dataNascimento;
   }
 
-  criarConta(usuario: Usuario, paciente: Paciente): void {
-    // Lógica para criar uma conta de paciente
-    console.log(
-      `Conta criada para o paciente ${usuario.nome}, ${paciente.endereco}`
+  criarConta(): void {
+    db.pacientes.add(this);
+  }
+
+  static async getConsultas(pacienteId: number): Promise<Consulta[]> {
+    const data = await Promise.all(
+      (
+        await db.consultas.where("pacienteId").equals(pacienteId).toArray()
+      ).map(async (consulta) => {
+        const medico = await db.medicos.get(consulta.medicoId);
+        if (medico) {
+          medico.especialidade = await db.especialidades
+            .where("id")
+            .equals(medico.especialidadeId)
+            .first();
+        }
+        return { ...consulta, medico };
+      })
     );
+
+    return data as Consulta[];
+  }
+
+  static async login(
+    cpf: string,
+    password: string
+  ): Promise<Paciente | undefined> {
+    return await db.pacientes
+      .filter((x) => x.cpf == cpf && x.senha == password)
+      .first();
+  }
+
+  static async CPFExistente(cpf: string): Promise<boolean> {
+    return (await db.pacientes.where("cpf").equals(cpf).count()) > 0;
   }
 }

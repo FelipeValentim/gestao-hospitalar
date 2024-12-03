@@ -1,3 +1,4 @@
+import { db } from "../database/dbContext";
 import { Medico } from "./Medico";
 import { Paciente } from "./Paciente";
 
@@ -28,17 +29,8 @@ export class Consulta {
     this.observacoes = observacoes;
   }
 
-  marcarConsulta(
-    medico: Medico,
-    paciente: Paciente,
-    data: Date,
-    observacoes: string,
-    horario: string
-  ): void {
-    // Lógica para marcar uma consulta
-    console.log(
-      `Consulta marcada para o paciente ${paciente.telefone} com o médico ${medico.crm}, ${data}, ${horario}, ${observacoes}`
-    );
+  async criarConsulta(): Promise<void> {
+    await db.consultas.add(this);
   }
 
   cancelarConsulta(consulta: Consulta): void {
