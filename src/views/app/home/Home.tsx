@@ -29,13 +29,21 @@ const Home = () => {
     return `${day}/${month}/${year} às ${hours}:${minutes}`;
   };
 
-  const deleteConsulta = (id: number) => {
-    db.consultas.delete(id);
-    setConsultas(consultas.filter((x) => x.id !== id));
-    toast.success("Consulta deletada com sucesso", {
-      position: "top-left",
-      autoClose: 5000,
-    });
+  const deleteConsulta = async (id: number) => {
+    const consulta = await Consulta.getConsulta(id);
+    if (consulta?.status == "Agendada") {
+      await db.consultas.delete(id);
+      setConsultas(consultas.filter((x) => x.id !== id));
+      toast.success("Consulta deletada com sucesso", {
+        position: "top-left",
+        autoClose: 5000,
+      });
+    } else {
+      toast.error("Não é possível deletar consultas realizadas e canceladas.", {
+        position: "top-left",
+        autoClose: 5000,
+      });
+    }
   };
 
   useEffect(() => {
@@ -54,8 +62,8 @@ const Home = () => {
       <h2>Consultas</h2>
       <div className="consultas">
         {consultas.map((consulta) => (
-          <div className="consulta">
-            <div key={consulta.id} className="card info">
+          <div className="consulta" key={consulta.id}>
+            <div className="card info">
               <span className="medico">{consulta.medico?.nome}</span>
               <span className="data">
                 {formatDateTime(`${consulta.data} ${consulta.horario}`)}
@@ -63,6 +71,7 @@ const Home = () => {
               <span className="especialidade">
                 {consulta.medico?.especialidade?.nome}
               </span>
+              <span className="status">{consulta.status}</span>
             </div>
             <div
               className="card delete"

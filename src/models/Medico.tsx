@@ -1,7 +1,6 @@
 import { Usuario } from "./Usuario";
 import { Especialidade } from "./Especialidade";
 import { db } from "../database/dbContext";
-import { HorarioDisponibilidade } from "./HorarioDisponibilidade";
 import { Consulta } from "./Consulta";
 
 export class Medico extends Usuario {
@@ -30,7 +29,7 @@ export class Medico extends Usuario {
       (
         await db.medicos.orderBy("especialidadeId").toArray()
       ).map(async (medico) => {
-        const especialidade = await db.especialidades.get(
+        const especialidade = await Especialidade.getEspecialidade(
           medico.especialidadeId
         );
 
@@ -50,25 +49,6 @@ export class Medico extends Usuario {
     )) as Consulta[];
   }
 
-  static async getHorariosDisponiveis(
-    medicoId: number,
-    dataPretendida: string
-  ): Promise<HorarioDisponibilidade[]> {
-    const data = await db.horarios.where("medicoId").equals(medicoId).toArray();
-    const consultas = await db.consultas
-      .filter(
-        (x) =>
-          data.some((h) => h.horario == x.horario) && x.data == dataPretendida
-      )
-      .toArray();
-
-    const horariosDisponiveis = data.filter(
-      (h) => !consultas.some((x) => x.horario === h.horario)
-    );
-
-    return horariosDisponiveis;
-  }
-
   static async login(
     cpf: string,
     password: string
@@ -76,5 +56,22 @@ export class Medico extends Usuario {
     return await db.medicos
       .filter((x) => x.cpf == cpf && x.senha == password)
       .first();
+  }
+
+  static async realizaConsulta(consultaId: number): Promise<void> {
+    // Lógica para cancelar uma consulta
+    const consulta = await Consulta.getConsulta(consultaId);
+    if (consulta) {
+      consulta.status = "Realizada";
+      await db.consultas.update(consulta.id, consulta);
+    }
+  }
+
+  static async cancelaConsulta(consultaId: number): Promise<void> {
+    const consulta = await Consulta.getConsulta(consultaId);
+    if (consulta) {
+      consulta.status = "Cancelada";
+      await db.consultas.update(consulta.id, consulta);
+    }
   }
 }

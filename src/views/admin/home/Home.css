@@ -1,39 +1,39 @@
 /* App.css */
 
-.consulta {
+.medico-consultas .consulta {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
 }
 
-.consulta.agendada {
+.medico-consultas .consulta.agendada {
   grid-template-columns: 1fr auto auto;
 }
 
-.consulta .info {
+.medico-consultas .consulta .info {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   justify-items: center;
 }
 
-.consultas {
+.medico-consultas {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-.consultas .card {
+.medico-consultas .card {
   padding: 1rem;
 }
 
-.consultas .consulta .delete {
+.medico-consultas .consulta .action {
   display: flex;
   transition: all ease-in-out 0.2s;
   align-items: center;
 }
 
-.consultas .consulta .delete:hover {
+.medico-consultas .consulta .action:hover {
   box-shadow: 0 5px 10px 0 #0d425440;
 }
 

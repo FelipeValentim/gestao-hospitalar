@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  value: string;
+  value: string | number | readonly string[] | undefined;
   type: string;
   title?: string;
 }

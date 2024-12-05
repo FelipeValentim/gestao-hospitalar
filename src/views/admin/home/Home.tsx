@@ -39,7 +39,7 @@ const Home = () => {
   }, [user]);
 
   const realizar = async (consultaId: number) => {
-    await Consulta.realizaConsulta(consultaId);
+    await Medico.realizaConsulta(consultaId);
     alterarStatus(consultaId, "Realizada");
   };
 
@@ -53,14 +53,14 @@ const Home = () => {
   };
 
   const cancelar = async (consultaId: number) => {
-    await Consulta.cancelaConsulta(consultaId);
+    await Medico.cancelaConsulta(consultaId);
     alterarStatus(consultaId, "Cancelada");
   };
 
   return (
     <div className="container">
       <h2>Consultas</h2>
-      <div className="consultas">
+      <div className="medico-consultas">
         {consultas.map((consulta) => (
           <div
             className={`consulta ${consulta.status.toLowerCase()}`}
@@ -76,13 +76,13 @@ const Home = () => {
             {consulta.status === "Agendada" && (
               <>
                 <div
-                  className="card delete"
+                  className="card action"
                   onClick={() => realizar(consulta.id)}
                 >
                   <DoneIcon />
                 </div>
                 <div
-                  className="card delete"
+                  className="card action"
                   onClick={() => cancelar(consulta.id)}
                 >
                   <ClearIcon />

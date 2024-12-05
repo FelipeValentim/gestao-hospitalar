@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Medico } from "../../../models/Medico";
-import { HorarioDisponibilidade } from "../../../models/HorarioDisponibilidade";
+import { Disponibilidade } from "../../../models/Disponibilidade";
 import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
 import RootState from "../../../interfaces/RootState";
@@ -13,14 +13,14 @@ import { useNavigate } from "react-router-dom";
 interface ConsultaState {
   medicoId: number | null;
   data: string | null;
-  horarioDisponibilidade: HorarioDisponibilidade | null;
+  horarioDisponibilidade: Disponibilidade | null;
 }
 
 const Schedule = () => {
   const navigate = useNavigate();
 
   const [medicos, setMedicos] = useState<Array<Medico>>([]);
-  const [horarios, setHorarios] = useState<Array<HorarioDisponibilidade>>([]);
+  const [horarios, setHorarios] = useState<Array<Disponibilidade>>([]);
   const [consulta, setConsulta] = useState<ConsultaState>({
     medicoId: null,
     data: null,
@@ -66,7 +66,7 @@ const Schedule = () => {
 
   const getHorarios = async () => {
     if (consulta.medicoId && consulta.data) {
-      const horarios = await Medico.getHorariosDisponiveis(
+      const horarios = await Disponibilidade.getHorariosDisponiveis(
         consulta.medicoId,
         consulta.data
       );

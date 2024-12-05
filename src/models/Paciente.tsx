@@ -1,5 +1,6 @@
 import { db } from "../database/dbContext";
 import { Consulta } from "./Consulta";
+import { Especialidade } from "./Especialidade";
 import { Usuario } from "./Usuario";
 
 export class Paciente extends Usuario {
@@ -33,10 +34,9 @@ export class Paciente extends Usuario {
       ).map(async (consulta) => {
         const medico = await db.medicos.get(consulta.medicoId);
         if (medico) {
-          medico.especialidade = await db.especialidades
-            .where("id")
-            .equals(medico.especialidadeId)
-            .first();
+          medico.especialidade = await Especialidade.getEspecialidade(
+            medico.especialidadeId
+          );
         }
         return { ...consulta, medico };
       })

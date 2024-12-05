@@ -1,0 +1,83 @@
+/* App.css */
+
+.disponibilidade {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+}
+
+.disponibilidade.agendada {
+  grid-template-columns: 1fr auto auto;
+}
+
+.disponibilidade .info {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.disponibilidades {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6rem;
+  margin-top: 2rem;
+}
+
+.disponibilidades .card {
+  padding: 1rem;
+}
+
+.disponibilidades .disponibilidade .action {
+  display: flex;
+  transition: all ease-in-out 0.2s;
+  align-items: center;
+}
+
+.disponibilidades .disponibilidade .action:hover {
+  box-shadow: 0 5px 10px 0 #0d425440;
+}
+
+.time-container {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  margin: auto;
+  gap: 1rem;
+}
+
+.time-container input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
+}
+
+.time-container input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.time-container input:hover {
+  border-color: #aaa;
+}
+
+@media (max-width: 600px) {
+  .card.info {
+    font-size: 0.8rem;
+    gap: 0.6rem;
+  }
+  .card.delete {
+    padding: 0.5rem;
+  }
+  .disponibilidade {
+    gap: 0.5rem;
+  }
+  .disponibilidades {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+}

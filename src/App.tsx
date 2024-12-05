@@ -16,6 +16,7 @@ import HorarioAdmin from "./views/admin/horario/Horario";
 import Schedule from "./views/app/schedule/Schedule";
 import AppLayout from "./layout/AppLayout";
 import RootState from "./interfaces/RootState";
+import { medicoRoles, pacienteRoles } from "./constants/default";
 
 function App() {
   const user = useSelector((state: RootState) => state.user);
@@ -53,7 +54,7 @@ function App() {
   if (loading) {
     return <div className="loading"></div>;
   }
-
+  console.log(roles);
   return (
     <div className="app">
       <HashRouter>
@@ -69,12 +70,13 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              {roles.some((r) => r === "paciente") ? (
+              {pacienteRoles.some((r) => user?.roles.includes(r)) && (
                 <>
                   <Route path="" element={<HomePaciente />} />
                   <Route path="/agendamento" element={<Schedule />} />
                 </>
-              ) : (
+              )}
+              {medicoRoles.some((r) => user?.roles.includes(r)) && (
                 <>
                   <Route path="" element={<HomeAdmin />} />
                   <Route path="/horarios" element={<HorarioAdmin />} />

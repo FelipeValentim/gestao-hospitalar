@@ -1,7 +1,7 @@
 import logo from "../assets/images/logo.png";
 import "../assets/css/header.css";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../redux/user";
 import { removeToken } from "../helpers/storage";
@@ -10,6 +10,7 @@ import RootState from "../interfaces/RootState";
 import { useState } from "react";
 
 const Hamburguer = () => {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
@@ -17,6 +18,7 @@ const Hamburguer = () => {
   const logout = () => {
     removeToken();
     dispatch(removeUser());
+    navigate("/");
   };
 
   return (
@@ -74,11 +76,11 @@ const Header = () => {
             <li className="underlined-item padding-2">Agendamento</li>
           </NavLink>
         )}
-        {/* {medicoRoles.some((r) => user?.roles.includes(r)) && (
+        {medicoRoles.some((r) => user?.roles.includes(r)) && (
           <NavLink to={"/horarios"}>
             <li className="underlined-item padding-2">Horários</li>
           </NavLink>
-        )} */}
+        )}
       </ul>
       <Hamburguer />
     </div>

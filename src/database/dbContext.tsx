@@ -3,7 +3,7 @@ import { Paciente } from "../models/Paciente";
 import { Medico } from "../models/Medico";
 import { Consulta } from "../models/Consulta";
 import { Receita } from "../models/Receita";
-import { HorarioDisponibilidade } from "../models/HorarioDisponibilidade";
+import { Disponibilidade } from "../models/Disponibilidade";
 import { Especialidade } from "../models/Especialidade";
 
 // Definindo a estrutura do banco de dados usando Dexie
@@ -12,11 +12,11 @@ class ClinicaDB extends Dexie {
   medicos: Dexie.Table<Medico, number>;
   consultas: Dexie.Table<Consulta, number>;
   receitas: Dexie.Table<Receita, number>;
-  horarios: Dexie.Table<HorarioDisponibilidade, number>;
+  disponibilidades: Dexie.Table<Disponibilidade, number>;
   especialidades: Dexie.Table<Especialidade, number>;
 
   constructor() {
-    super("GestaoHospitalar");
+    super("GestaoHospitalarDB");
 
     this.version(1).stores({
       medicos: "++id, especialidadeId, crm, cpf, nome, email, senha",
@@ -24,7 +24,7 @@ class ClinicaDB extends Dexie {
         "++id, telefone, endereco, dataNascimento, cpf, nome, email, senha",
       receitas: "++id, consultaId, prescricao",
       consultas: "++id, data, status, observacoes, pacienteId",
-      horarios: "++id, horario, medicoId",
+      disponibilidades: "++id, horario, medicoId",
       especialidades: "++id, nome",
     });
 
@@ -32,7 +32,7 @@ class ClinicaDB extends Dexie {
     this.medicos = this.table("medicos");
     this.consultas = this.table("consultas");
     this.receitas = this.table("receitas");
-    this.horarios = this.table("horarios");
+    this.disponibilidades = this.table("disponibilidades");
     this.especialidades = this.table("especialidades");
 
     this.initializeDefaultValues();
@@ -118,8 +118,8 @@ class ClinicaDB extends Dexie {
         const medicoId = await this.medicos.add(medico);
 
         for (const horario of medicoData.horarios) {
-          const horarioEntry = new HorarioDisponibilidade(horario, medicoId);
-          await this.horarios.add(horarioEntry);
+          const horarioEntry = new Disponibilidade(horario, medicoId);
+          await this.disponibilidades.add(horarioEntry);
         }
       }
     }
