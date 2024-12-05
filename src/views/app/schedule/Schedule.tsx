@@ -111,7 +111,9 @@ const Schedule = () => {
             <p>
               <strong>{medico.nome}</strong>
             </p>
-            <p>{medico.especialidade?.nome}</p>
+            <p>
+              {medico.especialidade?.nome} - {medico.crm}
+            </p>
           </div>
         ))}
       </div>

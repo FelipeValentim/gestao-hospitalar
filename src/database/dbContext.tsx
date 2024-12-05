@@ -2,7 +2,6 @@ import Dexie from "dexie";
 import { Paciente } from "../models/Paciente";
 import { Medico } from "../models/Medico";
 import { Consulta } from "../models/Consulta";
-import { Receita } from "../models/Receita";
 import { Disponibilidade } from "../models/Disponibilidade";
 import { Especialidade } from "../models/Especialidade";
 
@@ -11,7 +10,6 @@ class ClinicaDB extends Dexie {
   pacientes: Dexie.Table<Paciente, number>;
   medicos: Dexie.Table<Medico, number>;
   consultas: Dexie.Table<Consulta, number>;
-  receitas: Dexie.Table<Receita, number>;
   disponibilidades: Dexie.Table<Disponibilidade, number>;
   especialidades: Dexie.Table<Especialidade, number>;
 
@@ -19,10 +17,8 @@ class ClinicaDB extends Dexie {
     super("GestaoHospitalarDB");
 
     this.version(1).stores({
-      medicos: "++id, especialidadeId, crm, cpf, nome, email, senha",
-      pacientes:
-        "++id, telefone, endereco, dataNascimento, cpf, nome, email, senha",
-      receitas: "++id, consultaId, prescricao",
+      medicos: "++id, especialidadeId, crm, cpf, nome, senha",
+      pacientes: "++id, telefone, cpf, nome, senha",
       consultas: "++id, data, status, observacoes, pacienteId",
       disponibilidades: "++id, horario, medicoId",
       especialidades: "++id, nome",
@@ -31,7 +27,6 @@ class ClinicaDB extends Dexie {
     this.pacientes = this.table("pacientes");
     this.medicos = this.table("medicos");
     this.consultas = this.table("consultas");
-    this.receitas = this.table("receitas");
     this.disponibilidades = this.table("disponibilidades");
     this.especialidades = this.table("especialidades");
 
@@ -50,11 +45,8 @@ class ClinicaDB extends Dexie {
       const paciente = new Paciente(
         defaultCpf,
         "Paciente Padrão",
-        "paciente@exemplo.com",
         "123",
-        "123456789",
-        "Rua Exemplo, 123",
-        new Date(1990, 0, 1)
+        "123456789"
       );
       await this.pacientes.add(paciente);
     }
@@ -64,7 +56,6 @@ class ClinicaDB extends Dexie {
       {
         cpf: "11122233344",
         nome: "Dr. João Silva",
-        email: "joao.silva@clinica.com",
         senha: "123",
         especialidade: 2,
         crm: "CRM123456",
@@ -73,7 +64,6 @@ class ClinicaDB extends Dexie {
       {
         cpf: "55566677788",
         nome: "Dra. Maria Oliveira",
-        email: "maria.oliveira@clinica.com",
         senha: "123",
         especialidade: 1,
         crm: "CRM654321",
@@ -82,7 +72,6 @@ class ClinicaDB extends Dexie {
       {
         cpf: "55566677789",
         nome: "Dra. Rebeca Andra",
-        email: "rebeca.andrade@clinica.com",
         senha: "123",
         especialidade: 3,
         crm: "CRM654322",
@@ -91,7 +80,6 @@ class ClinicaDB extends Dexie {
       {
         cpf: "55566677799",
         nome: "Dr. Jorge Azevedo",
-        email: "jorge.azevedo@clinica.com",
         senha: "123",
         especialidade: 3,
         crm: "CRM654323",
@@ -110,7 +98,6 @@ class ClinicaDB extends Dexie {
         const medico = new Medico(
           medicoData.cpf,
           medicoData.nome,
-          medicoData.email,
           medicoData.senha,
           medicoData.especialidade,
           medicoData.crm

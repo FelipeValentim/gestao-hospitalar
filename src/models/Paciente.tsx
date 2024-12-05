@@ -5,22 +5,10 @@ import { Usuario } from "./Usuario";
 
 export class Paciente extends Usuario {
   telefone: string;
-  endereco: string;
-  dataNascimento: Date;
 
-  constructor(
-    cpf: string,
-    nome: string,
-    email: string,
-    senha: string,
-    telefone: string,
-    endereco: string,
-    dataNascimento: Date
-  ) {
-    super(cpf, nome, email, senha);
+  constructor(cpf: string, nome: string, senha: string, telefone: string) {
+    super(cpf, nome, senha);
     this.telefone = telefone;
-    this.endereco = endereco;
-    this.dataNascimento = dataNascimento;
   }
 
   async criarConta(): Promise<void> {

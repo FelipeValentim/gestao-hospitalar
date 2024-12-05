@@ -11,13 +11,12 @@ export class Medico extends Usuario {
   constructor(
     cpf: string,
     nome: string,
-    email: string,
     senha: string,
     especialidadeId: number,
     crm: string
   ) {
     // Chama o construtor da classe Usuario com os parâmetros necessários
-    super(cpf, nome, email, senha);
+    super(cpf, nome, senha);
 
     // Inicializa as propriedades específicas de Medico
     this.especialidadeId = especialidadeId;

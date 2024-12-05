@@ -37,15 +37,7 @@ const Register = () => {
       if (phonePattern.test(celular) && cpf.length === 11) {
         const existe = await Paciente.CPFExistente(cpf);
         if (!existe) {
-          const paciente = new Paciente(
-            cpf,
-            nome,
-            "paciente@exemplo.com",
-            password,
-            celular,
-            "Rua Exemplo, 123",
-            new Date(1990, 0, 1)
-          );
+          const paciente = new Paciente(cpf, nome, password, celular);
 
           paciente.criarConta();
 
