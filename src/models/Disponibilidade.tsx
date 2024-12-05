@@ -44,4 +44,8 @@ export class Disponibilidade {
 
     return data;
   }
+
+  static async delete(id: number): Promise<void> {
+    await db.disponibilidades.delete(id);
+  }
 }

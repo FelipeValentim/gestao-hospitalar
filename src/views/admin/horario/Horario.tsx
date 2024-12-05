@@ -33,15 +33,14 @@ const Horario = () => {
           autoClose: 5000,
         }
       );
-      return;
+    } else {
+      Disponibilidade.delete(id);
+      setHorarios(horarios.filter((x) => x.id !== id));
+      toast.success("Horário deletado com sucesso", {
+        position: "top-left",
+        autoClose: 5000,
+      });
     }
-
-    db.disponibilidades.delete(id);
-    setHorarios(horarios.filter((x) => x.id !== id));
-    toast.success("Horário deletado com sucesso", {
-      position: "top-left",
-      autoClose: 5000,
-    });
   };
 
   const criarHorario = async () => {

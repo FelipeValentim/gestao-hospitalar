@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { db } from "../../../database/dbContext";
 import "./Home.css"; // Certifique-se de importar o arquivo CSS
 import { Consulta } from "../../../models/Consulta";
 import { useSelector } from "react-redux";
@@ -32,7 +31,7 @@ const Home = () => {
   const deleteConsulta = async (id: number) => {
     const consulta = await Consulta.getConsulta(id);
     if (consulta?.status == "Agendada") {
-      await db.consultas.delete(id);
+      Consulta.delete(consulta.id);
       setConsultas(consultas.filter((x) => x.id !== id));
       toast.success("Consulta deletada com sucesso", {
         position: "top-left",

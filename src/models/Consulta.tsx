@@ -33,4 +33,7 @@ export class Consulta {
   async criarConsulta(): Promise<void> {
     await db.consultas.add(this);
   }
+  static async delete(id: number): Promise<void> {
+    await db.consultas.delete(id);
+  }
 }
