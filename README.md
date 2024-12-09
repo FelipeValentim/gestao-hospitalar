@@ -28,4 +28,4 @@ Por fim, no mesmo local aonde se encontra o package.json execute o comando
 
    ```
    npm run dev
-
+   ```
