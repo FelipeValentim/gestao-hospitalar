@@ -1,50 +1,27 @@
-# React + TypeScript + Vite
+## Requisitos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Antes de começar, você precisará ter as seguintes ferramentas instaladas no seu computador:
 
-Currently, two official plugins are available:
+1. [Node.js](https://nodejs.org/) (Recomendado LTS)
+2. [npm](https://www.npmjs.com/) (Instalado automaticamente com o Node.js)
+   
+   Você pode verificar se essas ferramentas estão instaladas executando os seguintes comandos no terminal:
+   ```
+   node -v
+   npm -v
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Preparação
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Primeiro precisamos instalar todos os pacotes e dependências necessárias para a execução do projeto, para isso abra um terminal aonde se encontra o arquivo package.json e digite no terminal 
 
-- Configure the top-level `parserOptions` property like this:
+``` npm install
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Aguarde até que o processo de instalação finalize
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Execução
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Por fim, no mesmo local aonde se encontra o package.json execute o comando 
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+```npm run dev
+
