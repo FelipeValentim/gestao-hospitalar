@@ -15,7 +15,8 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas no s
 
 Primeiro precisamos instalar todos os pacotes e dependências necessárias para a execução do projeto, para isso abra um terminal aonde se encontra o arquivo package.json e digite no terminal 
 
-``` npm install
+``` 
+npm install
 
 Aguarde até que o processo de instalação finalize
 
@@ -23,5 +24,6 @@ Aguarde até que o processo de instalação finalize
 
 Por fim, no mesmo local aonde se encontra o package.json execute o comando 
 
-```npm run dev
+```
+npm run dev
 
