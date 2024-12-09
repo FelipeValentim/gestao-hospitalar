@@ -9,6 +9,7 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas no s
    ```
    node -v
    npm -v
+   ```
 
 
 ## Preparação
@@ -17,6 +18,7 @@ Primeiro precisamos instalar todos os pacotes e dependências necessárias para 
 
    ```
    npm install
+   ```
 
 Aguarde até que o processo de instalação finalize
 
